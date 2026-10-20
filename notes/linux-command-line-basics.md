@@ -200,6 +200,7 @@ vim notes.txt
 - `sudo <command>` — run command with administrator rights
 - `adduser <name>` — create a new user (Debian/Ubuntu)
 - `userdel <name>` — delete a user
+-  `usermod -aG sudo <name>` — add user to admin group (Ubuntu/Kali)
 - `passwd` — change password
 - `chsh` — change login shell
 - `cat /etc/passwd` — list users (system + normal)
