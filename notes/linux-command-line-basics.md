@@ -369,13 +369,10 @@ EOF
 # 4. Create encoded.txt
 echo "YXlvdWI6U3VwZXJTZWNyZXRQYXNzd29yZDEyMw==" > encoded.txt
 
-```
-
----
 
 ### Exercise 1: Searching inside files (`grep`)
 
-```bash
+
 # Search for lines containing "401" or "403" status codes in access.log
 grep -E "401|403" access.log
 
@@ -385,7 +382,6 @@ grep -i "cybersecurity" users.csv
 # Exclude lines containing HTTP 200 OK from access.log
 grep -v " 200 " access.log
 
-```
 
 ---
 
