@@ -305,6 +305,181 @@ echo "aGVsbG8=" | base64 --decode
 
 ```
 
+# 🔍 Linux Text Processing & Filtering — Practical Lab Exercises
+
+> Hands-on, step-by-step terminal execution examples for `grep`, `cut`, `awk`, `sort`, `uniq`, `tr`, `strings`, and `base64` acting directly on sample files.
+
+---
+
+## ⚡ Quick Reference Table
+
+| Tool | Primary Function | Common Syntax / Example |
+| :--- | :--- | :--- |
+| **`grep`** | Pattern searching within files | `grep -r "error" /var/log/` |
+| **`cut`** | Extract specific fields/columns | `cut -d':' -f1 /etc/passwd` |
+| **`awk`** | Field processing & pattern matching | `awk '{print $1}' file.txt` |
+| **`sort`** | Reorder lines alphabetically/numerically | `sort -n data.txt` |
+| **`uniq`** | Deduplicate consecutive identical lines | `sort file.txt \| uniq -c` |
+| **`tr`** | Translate or delete characters | `cat file.txt \| tr 'a-z' 'A-Z'` |
+| **`strings`** | Extract printable strings from binary files | `strings /bin/ls` |
+| **`base64`** | Base64 data encoding/decoding | `echo -n "hello" \| base64` |
+
+---
+
+## 💻 Practical File Execution Examples
+
+Run these setup commands first to create the test files (`access.log`, `users.csv`, `data.txt`, and `encoded.txt`), then run the command examples on them.
+
+### Step 0: Setup Workspace & Sample Files
+
+
+# Create a practice workspace
+mkdir -p ~/text_lab && cd ~/text_lab
+
+# 1. Create access.log
+cat << 'EOF' > access.log
+192.168.1.10 - - [20/Oct/2026:10:00:01] "GET /index.html HTTP/1.1" 200 1024
+192.168.1.15 - - [20/Oct/2026:10:00:05] "POST /login HTTP/1.1" 401 512
+192.168.1.10 - - [20/Oct/2026:10:01:12] "GET /dashboard HTTP/1.1" 200 2048
+192.168.1.22 - - [20/Oct/2026:10:02:00] "GET /admin HTTP/1.1" 403 128
+192.168.1.15 - - [20/Oct/2026:10:02:45] "POST /login HTTP/1.1" 200 1024
+192.168.1.10 - - [20/Oct/2026:10:03:10] "GET /logout HTTP/1.1" 200 256
+EOF
+
+# 2. Create users.csv
+cat << 'EOF' > users.csv
+id,name,role,department,salary
+1,ayoub,admin,cybersecurity,9500
+2,sarah,engineer,devops,8200
+3,youssef,analyst,security,7100
+4,omar,admin,infrastructure,9100
+5,lina,engineer,cybersecurity,8800
+EOF
+
+# 3. Create data.txt
+cat << 'EOF' > data.txt
+apple
+orange
+apple
+banana
+orange
+apple
+EOF
+
+# 4. Create encoded.txt
+echo "YXlvdWI6U3VwZXJTZWNyZXRQYXNzd29yZDEyMw==" > encoded.txt
+
+```
+
+---
+
+### Exercise 1: Searching inside files (`grep`)
+
+```bash
+# Search for lines containing "401" or "403" status codes in access.log
+grep -E "401|403" access.log
+
+# Case-insensitive search for "cybersecurity" inside users.csv
+grep -i "cybersecurity" users.csv
+
+# Exclude lines containing HTTP 200 OK from access.log
+grep -v " 200 " access.log
+
+```
+
+---
+
+### Exercise 2: Extracting columns from files (`cut`)
+
+```bash
+# Extract IP addresses (1st space-delimited field) from access.log
+cut -d' ' -f1 access.log
+
+# Extract username (2nd) and salary (5th field) from users.csv
+cut -d',' -f2,5 users.csv
+
+# Extract the first 10 characters of each line in access.log
+cut -c 1-10 access.log
+
+```
+
+---
+
+### Exercise 3: Advanced line and column parsing on files (`awk`)
+
+```bash
+# Print formatted columns (name and salary) from users.csv (skipping header)
+awk -F',' 'NR>1 {print $2 " earns $" $5}' users.csv
+
+# Filter and display users with a salary over 8000 from users.csv
+awk -F',' '$5 > 8000 {print $2, $3, $5}' users.csv
+
+# Extract IP address ($1) and HTTP status code ($9) from access.log
+awk '{print "IP:", $1, "--> Status:", $9}' access.log
+
+```
+
+---
+
+### Exercise 4: Sorting and counting duplicate lines in files (`sort` & `uniq`)
+
+```bash
+# Sort items in data.txt and count unique occurrences
+sort data.txt | uniq -c
+
+# Sort users.csv numerically by salary (5th column) in descending order
+sort -t',' -k5,5nr users.csv
+
+# Extract IP addresses from access.log, sort them, and count visits per IP
+cut -d' ' -f1 access.log | sort | uniq -c
+
+```
+
+---
+
+### Exercise 5: Modifying text streams from files (`tr`)
+
+```bash
+# Convert all text inside users.csv to UPPERCASE
+cat users.csv | tr 'a-z' 'A-Z'
+
+# Convert commas in users.csv into tab spaces
+cat users.csv | tr ',' '\t'
+
+# Remove all digits from data inside users.csv
+cat users.csv | tr -d '0-9'
+
+```
+
+---
+
+### Exercise 6: Extracting printable strings from binary files (`strings`)
+
+```bash
+# Create a sample compressed binary archive from users.csv
+gzip -c users.csv > users_archive.bin.gz
+
+# Extract human-readable text strings directly from the binary archive file
+strings users_archive.bin.gz | grep "cybersecurity"
+
+```
+
+---
+
+### Exercise 7: Encoding and decoding file contents (`base64`)
+
+```bash
+# Encode the contents of users.csv to a Base64 file
+base64 users.csv > users.b64
+
+# Decode encoded.txt file back to plaintext output
+base64 -d encoded.txt
+
+# Clean up practice lab directory
+cd ~ && rm -rf ~/text_lab
+
+```
+
 #  File Permissions & Redirection (`chmod`)
 
 A quick-reference guide on how to manage file permissions using symbolic modes in Linux.
