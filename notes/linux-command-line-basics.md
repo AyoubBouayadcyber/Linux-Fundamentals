@@ -56,6 +56,41 @@ Beginner-friendly Linux terminal notes with clear command explanations and examp
 - `cat file.txt` — print file content
 - `more file.txt` / `less file.txt` — view long files page by page
 
+ ---
+### Create
+
+- `touch file.txt` — create an empty file
+- `mkdir folder` — create a directory
+
+### Copy
+
+- `cp src dst` — copy file (e.g. `cp file1.txt backup.txt`)
+- `cp -r dir1 dir2` — copy directory recursively
+
+### Move / rename
+
+- `mv src dst` — move or rename (e.g. `mv old.txt new.txt`)
+
+### Remove (be careful)
+
+- `rm file.txt` — remove file
+- `rmdir folder` — remove empty directory
+- `rm -r folder` — remove directory (recursive)
+- `rm -rf folder` — force remove ⚠️ dangerous
+
+---
+
+## Linux Directories (Very Important)
+
+- `/home` — users' home directories
+- `/root` — root user home directory
+- `/bin` — essential user commands (binaries)
+- `/sbin` — system/admin commands
+- `/etc` — system configuration files
+- `/var` — variable data (logs, cache, spool)
+- `/tmp` — temporary files
+- `/dev` — devices (disks, terminals, etc.)
+
 ---
 
 ## Identity, Users, and Groups
@@ -366,6 +401,18 @@ bunzip2 file.txt.bz2
 # Alternative: bzip2 -d file.txt.bz2
 
 ```
+## Networking (basics)
+
+- `ifconfig` (legacy) / `ip a` (modern) — network interfaces and IP addresses
+
+### Network Interface Details (from `ifconfig`)
+
+- **MAC address** — unique hardware address of the network card (e.g. `08:00:27:da:bb:d9`)
+- **Netmask** — defines the size of the local network (e.g. `255.255.255.0` → up to 254 usable host IPs)
+- **Broadcast address** — send to all devices on the same network (e.g. `10.0.2.255`)
+- **RX / TX** — received (RX) and transmitted (TX) data totals
+
+---
 #  Network Tools, Sockets, & Scanning Lab
 
 A comprehensive guide and hands-on workshop explaining essential command-line networking tools (`nc`, `nmap`, `openssl`) and how to interact with network services using automated scripts.
@@ -547,57 +594,11 @@ for pin in {0000..0005}; do echo "Trying PIN: $pin" | nc 127.0.0.1 3000; sleep 1
 
 ---
 
-
-
-```
-
-
-
-
-
-
-
-### Create
-
-- `touch file.txt` — create an empty file
-- `mkdir folder` — create a directory
-
-### Copy
-
-- `cp src dst` — copy file (e.g. `cp file1.txt backup.txt`)
-- `cp -r dir1 dir2` — copy directory recursively
-
-### Move / rename
-
-- `mv src dst` — move or rename (e.g. `mv old.txt new.txt`)
-
-### Remove (be careful)
-
-- `rm file.txt` — remove file
-- `rmdir folder` — remove empty directory
-- `rm -r folder` — remove directory (recursive)
-- `rm -rf folder` — force remove ⚠️ dangerous
-
----
-
 ## Find help
 
 - `man <command>` — manual page (e.g. `man ls`)
 - `apropos <keyword>` — search for commands by keyword
 - `which <command>` — shows the path of a command (e.g. `which python`)
-
----
-
-## Linux Directories (Very Important)
-
-- `/home` — users' home directories
-- `/root` — root user home directory
-- `/bin` — essential user commands (binaries)
-- `/sbin` — system/admin commands
-- `/etc` — system configuration files
-- `/var` — variable data (logs, cache, spool)
-- `/tmp` — temporary files
-- `/dev` — devices (disks, terminals, etc.)
 
 ---
 
@@ -612,19 +613,6 @@ for pin in {0000..0005}; do echo "Trying PIN: $pin" | nc 127.0.0.1 3000; sleep 1
 
 ---
 
-## Networking (basics)
-
-- `ifconfig` (legacy) / `ip a` (modern) — network interfaces and IP addresses
-- `netstat` (legacy) / `ss` (modern) — connections and listening ports
-
-### Network Interface Details (from `ifconfig`)
-
-- **MAC address** — unique hardware address of the network card (e.g. `08:00:27:da:bb:d9`)
-- **Netmask** — defines the size of the local network (e.g. `255.255.255.0` → up to 254 usable host IPs)
-- **Broadcast address** — send to all devices on the same network (e.g. `10.0.2.255`)
-- **RX / TX** — received (RX) and transmitted (TX) data totals
-
----
 
 ## Processes & System Monitoring
 
