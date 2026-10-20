@@ -201,8 +201,9 @@ vim notes.txt
 - `adduser <name>` — create a new user (Debian/Ubuntu)
 - `userdel <name>` — delete a user
 -  `usermod -aG sudo <name>` — add user to admin group (Ubuntu/Kali)
+-  `groups username` to see the sudoers group
+-  `su - username` to change the user 
 - `passwd` — change password
-- `chsh` — change login shell
 - `cat /etc/passwd` — list users (system + normal)
 - `cat /etc/shadow` — password hashes (root only)
 - `chmod` — change file/directory permissions
