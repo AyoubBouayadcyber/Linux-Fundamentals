@@ -79,10 +79,483 @@ Beginner-friendly Linux terminal notes with clear command explanations and examp
 - `chsh` — change login shell
 - `cat /etc/passwd` — list users (system + normal)
 - `cat /etc/shadow` — password hashes (root only)
+- `chmod` — change file/directory permissions
+---
+#  Linux Text Processing & Filtering Toolkit
+
+A handy quick-reference cheat sheet for searching, parsing, transforming, and decoding file contents using powerful command-line utilities.
 
 ---
 
-## Files & Directories (Create / Copy / Move / Delete)
+##  Quick Reference Table
+
+| Tool | Primary Function | Common Syntax / Example |
+| --- | --- | --- |
+| **`grep`** | Pattern searching within files | `grep -r "error" /var/log/` |
+| **`cut`** | Extract specific fields/columns | `cut -d':' -f1 /etc/passwd` |
+| **`awk`** | Field processing & pattern matching | `awk '{print $1}' file.txt` |
+| **`sort`** | Reorder lines alphabetically/numerically | `sort -n data.txt` |
+| **`uniq`** | Deduplicate consecutive identical lines | `sort file.txt |
+| **`tr`** | Translate or delete characters | `cat file.txt |
+| **`strings`** | Extract printable strings from binary files | `strings /bin/ls` |
+| **`base64`** | Base64 data encoding/decoding | `echo -n "hello" |
+
+---
+
+##  Detailed Tool Guide
+
+### 1. `grep` — Pattern Searching
+
+Searches for specific patterns, words, or regular expressions within files.
+
+```bash
+# Recursively search for the word "error" in the /var/log directory
+grep -r "error" /var/log/
+
+```
+
+### 2. `cut` — Field Extraction
+
+Extracts specific sections (columns or fields) from each line of a file.
+
+```bash
+# Extract the first field (username) from /etc/passwd using ':' as a delimiter
+cut -d':' -f1 /etc/passwd
+
+```
+
+
+### 3. `sort` — Sorting Lines
+
+Rearranges the lines of text files in alphabetical or numerical order.
+
+```bash
+# Sort numerical data numerically (-n)
+sort -n data.txt
+
+```
+
+### 4. `uniq` — Removing Duplicates
+
+Filters out consecutive duplicate lines. (Usually paired with `sort`).
+
+```bash
+# Sort the file and count occurrences of each unique line
+sort file.txt | uniq -c
+
+```
+
+### 5. `tr` — Character Translation
+
+Translates, squeezes, and/or deletes characters from standard input.
+
+```bash
+# Convert lowercase letters to uppercase
+cat file.txt | tr 'a-z' 'A-Z'
+
+```
+
+### 6. `strings` — Binary String Extraction
+
+Dumps printable character strings from binary files.
+
+```bash
+# Extract human-readable text from a binary executable
+strings /bin/ls
+
+```
+
+### 7. `base64` — Encoding & Decoding
+
+Encodes or decodes data into/from Base64 representation.
+
+```bash
+#, Encode a string into Base64 format
+echo -n "hello" | base64
+
+# Decode Base64 string back to plaintext
+echo "aGVsbG8=" | base64 --decode
+
+```
+
+#  File Permissions & Redirection (`chmod`)
+
+A quick-reference guide on how to manage file permissions using symbolic modes in Linux.
+
+---
+
+##  Quick Reference
+
+| Command | Primary Function | Example / Syntax |
+| --- | --- | --- |
+| **`chmod`** | Change file/directory permissions using letters and operators | `chmod +x script.sh` |
+
+---
+
+## Detailed Guide
+
+### What Do the Permissions Mean?
+
+A permission string looks like `rwx rwx rwx` and applies to three categories of users:
+
+1. **Owner (`u`)**: The user who owns the file.
+2. **Group (`g`)**: Users assigned to the same group as the file.
+3. **Others (`o`)**: Everyone else on the system.
+
+* **`r` (Read):** View file contents or list a directory's contents.
+* **`w` (Write):** Modify or delete the file/directory.
+* **`x` (Execute):** Run the file as a program/script or enter a directory.
+
+---
+
+### The Symbolic Syntax
+
+The symbolic method uses letters to target specific users and operators to add or remove permissions.
+
+* **Targets:** `u` (owner), `g` (group), `o` (others), `a` (all)
+* **Operators:** `+` (add permission), `-` (remove permission), `=` (set exact permission)
+
+**Example:**
+
+```bash
+chmod +x script.sh
+
+```
+
+* **Explanation:** Adds (`+`) execute (`x`) permission for everyone on `script.sh`.
+
+---
+
+### When and How to Execute It?
+
+#### **When should you use it?**
+
+* **When you write a new script:** If you write a Bash script and try to run it immediately, Linux blocks you with a `Permission denied` error until you make it executable.
+* **When installing custom binaries:** If you download a program or binary file and it won't run, you likely need to grant execution rights.
+
+#### **How to execute the file after changing permissions?**
+
+Once you have granted execution rights, run the file in your terminal by specifying its path:
+
+```bash
+# If the script is in your current directory:
+./script.sh
+
+# Or by providing the full path:
+/home/username/projects/script.sh
+
+```
+
+---
+
+> [!NOTE]
+> You must either **own the file** or have **administrator privileges (`sudo`)** to change its permissions using `chmod`.
+
+
+---
+ 
+#  File Compression & Decompression Reference Guide
+
+A clean, focused reference guide for handling archives, single-file compression, and decompression in the Linux terminal.
+
+---
+
+##  Quick Reference
+
+| Format / Tool | Task | Command / Syntax |
+| :--- | :--- | :--- |
+| **`.tar`** (Standard Archive) | Compress / Bundle | `tar -cvf archive.tar dir/` |
+| | Decompress / Extract | `tar -xvf archive.tar` |
+| **`.tar.gz`** (Gzip Archive) | Compress / Bundle | `tar -zcvf archive.tar.gz dir/` |
+| | Decompress / Extract | `tar -zxvf archive.tar.gz` |
+| **`.tar.bz2`** (Bzip2 Archive) | Compress / Bundle | `tar -jcvf archive.tar.bz2 dir/` |
+| | Decompress / Extract | `tar -jxvf archive.tar.bz2` |
+| **`.gz`** (Single Gzip File) | Compress | `gzip file.txt` |
+| | Decompress | `gunzip file.txt.gz` (or `gzip -d`) |
+| **`.bz2`** (Single Bzip2 File) | Compress | `bzip2 file.txt` |
+| | Decompress | `bunzip2 file.txt.bz2` (or `bzip2 -d`) |
+
+---
+
+##  Detailed Guide
+
+### 1. Archive Management (`tar`)
+The `tar` utility bundles multiple files and folder structures into a single file.
+
+#### Creating Archives
+* **Standard `.tar` (Uncompressed):**
+  ```bash
+  tar -cvf archive.tar dir/
+
+```
+
+* **Gzipped `.tar.gz` (Compressed):**
+```bash
+tar -zcvf archive.tar.gz dir/
+
+```
+
+
+* **Bzipped `.tar.bz2` (High Compression):**
+```bash
+tar -jcvf archive.tar.bz2 dir/
+
+```
+
+
+
+#### Extracting / Decompressing Archives
+
+* **Extract Standard `.tar`:**
+```bash
+tar -xvf archive.tar
+
+```
+
+
+* **Extract `.tar.gz`:**
+```bash
+tar -zxvf archive.tar.gz
+
+```
+
+
+* **Extract `.tar.bz2`:**
+```bash
+tar -jxvf archive.tar.bz2
+
+```
+---
+
+### 2. Single-File Compression & Decompression
+
+Unlike `tar` (which combines multiple files), these tools compress **individual files** to save disk space.
+
+#### Using `gzip` (`.gz`)
+
+* **Compress a file:**
+```bash
+gzip file.txt
+# Result: file.txt.gz (replaces original)
+
+```
+
+
+* **Decompress a file:**
+```bash
+gunzip file.txt.gz
+# Alternative: gzip -d file.txt.gz
+
+```
+
+
+
+#### Using `bzip2` (`.bz2`)
+
+* **Compress a file (higher compression ratio):**
+```bash
+bzip2 file.txt
+# Result: file.txt.bz2 (replaces original)
+
+```
+
+
+* **Decompress a file:**
+```bash
+bunzip2 file.txt.bz2
+# Alternative: bzip2 -d file.txt.bz2
+
+```
+#  Network Tools, Sockets, & Scanning Lab
+
+A comprehensive guide and hands-on workshop explaining essential command-line networking tools (`nc`, `nmap`, `openssl`) and how to interact with network services using automated scripts.
+
+---
+
+##  Quick Reference
+
+| Tool | Primary Purpose | Common Syntax / Example |
+| :--- | :--- | :--- |
+| **Netcat (`nc`)** | Port scanning, listening, and raw TCP/UDP connections | `nc -zv 192.168.1.1 80` |
+| **Nmap (`nmap`)** | Network discovery, port scanning, and service auditing | `nmap -sV -sC target.com` |
+| **OpenSSL (`openssl`)** | Testing and debugging SSL/TLS secure connections | `openssl s_client -connect example.com:443` |
+| **Socket Loop** | Automated testing or brute-forcing over a network socket | `for pin in {0000..9999}; do echo "$pin" \| nc ...; done` |
+
+---
+
+## Detailed Tool Explanations
+
+### 1. Netcat (`nc`) — The Networking "Swiss Army Knife"
+Netcat is a versatile utility used to read and write data across network connections using TCP or UDP protocols.
+
+* **Checking if a port is open (`-zv`):**
+  ```bash
+  nc -zv <host> <port>
+
+```
+
+* **`-z`**: Zero-I/O mode (used purely for scanning, without sending actual data).
+* **`-v`**: Verbose mode (gives detailed output on whether the connection succeeded or failed).
+* **Starting a local listener (`-lvp`):**
+```bash
+nc -lvp <port>
+
+```
+
+
+* **`-l`**: Listen mode (sets Netcat up as a server waiting for incoming connections).
+* **`-v`**: Verbose mode (shows who connected).
+* **`-p`**: Specifies the local port to listen on.
+
+
+
+---
+
+### 2. Nmap (`nmap`) — Network Mapper & Security Auditing
+
+Nmap is the industry-standard tool for network exploration, port scanning, and vulnerability detection.
+
+* **Service version and default script scan:**
+```bash
+nmap -sV -sC <target>
+
+```
+
+
+* **`-sV`**: Probe open ports to determine service/version info (e.g., discovering what software/version is running).
+* **`-sC`**: Runs a default set of safe, helpful scripting engine (NSE) scripts to gather extra information (like HTTP headers or SSL ciphers).
+
+
+
+---
+
+### 3. OpenSSL (`openssl`) — TLS/SSL Connection Debugging
+
+OpenSSL is a cryptography toolkit. Its `s_client` subcommand lets you act as a raw TLS client to inspect secure web servers.
+
+* **Connecting over an SSL/TLS wrapper:**
+```bash
+openssl s_client -connect <host>:443
+
+```
+
+
+* *Use case:* Checking SSL certificate expiration dates, inspecting certificate chains, and debugging handshake errors.
+
+
+
+---
+
+### 4. Socket Loop Example — Automation via Shell Scripting
+
+You can combine standard Bash loops with networking tools like Netcat to automate repetitive tasks against a network socket.
+
+* **The Example:**
+```bash
+for pin in {0000..9999}; do echo "$pin" | nc 127.0.0.1 3000; done
+
+```
+
+
+* *How it works:* Generates sequential inputs (`0000` to `9999`) and pipes them directly into a target network socket.
+
+
+
+---
+
+## 🛠️ Hands-On Practice Lab
+
+Follow these steps to test every tool locally on your machine using safe, self-contained environments.
+
+> **Setup Tip:** Open **two separate terminal windows or tabs** to run these exercises:
+> * **Terminal A:** Acts as our "Server" (listener).
+> * **Terminal B:** Acts as our "Client" (sender/scanner).
+> 
+> 
+
+---
+
+### Lab 1: Netcat (`nc`) Communication
+
+1. **Start a Local Listener (Terminal A):**
+```bash
+nc -lvp 4444
+
+```
+
+
+2. **Connect and Send Data (Terminal B):**
+```bash
+nc 127.0.0.1 4444
+
+```
+
+
+*(Type any message in Terminal B and press Enter—watch it appear in Terminal A!)*
+3. **Scan the Port (Terminal B):**
+```bash
+nc -zv 127.0.0.1 4444
+
+```
+
+
+*(Expected output: `Connection to 127.0.0.1 4444 port [tcp/*] succeeded!`)*
+
+---
+
+### Lab 2: Nmap Local Audit (`nmap`)
+
+Scan your local loopback interface to test service detection:
+
+```bash
+nmap -sV -sC 127.0.0.1
+
+```
+
+---
+
+### Lab 3: Secure Connection Debugging (`openssl`)
+
+Connect to a public TLS server to inspect its security certificate:
+
+```bash
+openssl s_client -connect google.com:443
+
+```
+
+* *Interactive trick:* Once connected, type `GET / HTTP/1.1` and press **Enter twice** to view the raw HTTP response from the server.
+
+---
+
+### Lab 4: Automated Socket Loop
+
+1. **Start a Listener (Terminal A):**
+```bash
+nc -lvp 3000
+
+```
+
+
+2. **Run the Automated Loop (Terminal B):**
+```bash
+for pin in {0000..0005}; do echo "Trying PIN: $pin" | nc 127.0.0.1 3000; sleep 1; done
+
+```
+
+
+*(Watch Terminal A receive each sequential input automatically with a 1-second delay!)*
+
+---
+
+
+
+```
+
+
+
+
+
+
 
 ### Create
 
