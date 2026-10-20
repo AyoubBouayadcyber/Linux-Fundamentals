@@ -381,9 +381,9 @@ Once you have granted execution rights, run the file in your terminal by specify
 
 ---
  
-#  File Compression & Decompression Reference Guide
+# File Compression & Decompression Reference Guide
 
-A clean, focused reference guide for handling archives, single-file compression, and decompression in the Linux terminal.
+> A clean, focused reference guide for handling archives, single-file compression, and decompression in the Linux terminal with practical training exercises.
 
 ---
 
@@ -398,32 +398,41 @@ A clean, focused reference guide for handling archives, single-file compression,
 | **`.tar.bz2`** (Bzip2 Archive) | Compress / Bundle | `tar -jcvf archive.tar.bz2 dir/` |
 | | Decompress / Extract | `tar -jxvf archive.tar.bz2` |
 | **`.gz`** (Single Gzip File) | Compress | `gzip file.txt` |
-| | Decompress | `gunzip file.txt.gz` (or `gzip -d`) |
+| | Decompress | `gunzip file.txt.gz` *(or `gzip -d`)* |
 | **`.bz2`** (Single Bzip2 File) | Compress | `bzip2 file.txt` |
-| | Decompress | `bunzip2 file.txt.bz2` (or `bzip2 -d`) |
+| | Decompress | `bunzip2 file.txt.bz2` *(or `bzip2 -d`)* |
 
 ---
 
-##  Detailed Guide
+## Detailed Command Breakdown
 
 ### 1. Archive Management (`tar`)
-The `tar` utility bundles multiple files and folder structures into a single file.
+
+The `tar` utility bundles multiple files and folder structures into a single file without deleting the originals.
+
+#### Flag Breakdown
+- `-c` : Create a new archive
+- `-x` : Extract an existing archive
+- `-v` : Verbose (show processed files in terminal)
+- `-f` : Specify the output file name
+- `-z` : Process through `gzip`
+- `-j` : Process through `bzip2`
 
 #### Creating Archives
-* **Standard `.tar` (Uncompressed):**
+* **Standard `.tar` (Uncompressed bundling):**
   ```bash
   tar -cvf archive.tar dir/
 
 ```
 
-* **Gzipped `.tar.gz` (Compressed):**
+* **Gzipped `.tar.gz` (Fast compression):**
 ```bash
 tar -zcvf archive.tar.gz dir/
 
 ```
 
 
-* **Bzipped `.tar.bz2` (High Compression):**
+* **Bzipped `.tar.bz2` (High compression ratio):**
 ```bash
 tar -jcvf archive.tar.bz2 dir/
 
@@ -452,26 +461,27 @@ tar -zxvf archive.tar.gz
 tar -jxvf archive.tar.bz2
 
 ```
+
+
+
 ---
 
 ### 2. Single-File Compression & Decompression
 
-Unlike `tar` (which combines multiple files), these tools compress **individual files** to save disk space.
+Unlike `tar` (which combines multiple files), `gzip` and `bzip2` compress individual files directly and **replace** the original file by default.
 
 #### Using `gzip` (`.gz`)
 
 * **Compress a file:**
 ```bash
-gzip file.txt
-# Result: file.txt.gz (replaces original)
+gzip file.txt                 # Creates file.txt.gz and removes file.txt
 
 ```
 
 
 * **Decompress a file:**
 ```bash
-gunzip file.txt.gz
-# Alternative: gzip -d file.txt.gz
+gunzip file.txt.gz            # Restores file.txt and removes file.txt.gz
 
 ```
 
@@ -479,20 +489,82 @@ gunzip file.txt.gz
 
 #### Using `bzip2` (`.bz2`)
 
-* **Compress a file (higher compression ratio):**
+* **Compress a file (Higher compression ratio):**
 ```bash
-bzip2 file.txt
-# Result: file.txt.bz2 (replaces original)
+bzip2 file.txt                # Creates file.txt.bz2 and removes file.txt
 
 ```
 
 
 * **Decompress a file:**
 ```bash
-bunzip2 file.txt.bz2
-# Alternative: bzip2 -d file.txt.bz2
+bunzip2 file.txt.bz2          # Restores file.txt and removes file.txt.bz2
 
 ```
+
+
+
+---
+
+##  Practical Training Exercises
+
+Run these exact terminal commands sequentially to practice `tar`, `gzip`, and `bzip2` in an isolated lab environment.
+
+### Exercise 1: Single-File Compression (`gzip` vs `bzip2`)
+
+```bash
+# Step 1: Create a temporary practice directory
+mkdir -p ~/compression_lab && cd ~/compression_lab
+
+# Step 2: Create a sample file
+echo "Linux Terminal Training - Compression Test" > sample.txt
+
+# Step 3: Compress using gzip
+gzip sample.txt
+
+# Step 4: Decompress gzip file
+gunzip sample.txt.gz
+
+# Step 5: Compress using bzip2
+bzip2 sample.txt
+
+# Step 6: Decompress bzip2 file
+bunzip2 sample.txt.bz2
+
+# Step 7: Clean up file
+rm sample.txt
+
+```
+
+---
+
+### Exercise 2: Multi-File Directory Archiving (`tar`)
+
+```bash
+# Step 1: Create a test directory with sample files
+mkdir -p ~/compression_lab/data
+echo "Data 1" > ~/compression_lab/data/file1.txt
+echo "Data 2" > ~/compression_lab/data/file2.txt
+
+# Step 2: Bundle folder into an uncompressed .tar file
+tar -cvf data.tar data/
+
+# Step 3: Bundle and compress into .tar.gz (Gzip archive)
+tar -zcvf data.tar.gz data/
+
+# Step 4: Bundle and compress into .tar.bz2 (Bzip2 archive)
+tar -jcvf data.tar.bz2 data/
+
+# Step 5: Extract archives
+tar -xvf data.tar
+tar -zxvf data.tar.gz
+tar -jxvf data.tar.bz2
+
+# Step 6: Clean up training directory
+cd ~ && rm -rf ~/compression_lab
+
+```
+
 ## Networking (basics)
 
 - `ifconfig` (legacy) / `ip a` (modern) — network interfaces and IP addresses
