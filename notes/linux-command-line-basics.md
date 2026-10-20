@@ -62,7 +62,7 @@ Beginner-friendly Linux terminal notes with clear command explanations and examp
 - `touch file.txt` — create an empty file
 - `mkdir folder` — create a directory
 
-  ```
+
 #  Writing to Files in Linux (Terminal Guide)
 
 A clear, hands-on reference guide on how to create, overwrite, append, and edit files directly from the Linux command line using redirection operators, `cat`, and text editors.
