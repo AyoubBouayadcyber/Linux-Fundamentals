@@ -305,13 +305,14 @@ echo "aGVsbG8=" | base64 --decode
 
 ```
 
-# 🔍 Linux Text Processing & Filtering — Practical Lab Exercises
+
+#  Linux Text Processing & Filtering — Practical Lab Exercises
 
 > Hands-on, step-by-step terminal execution examples for `grep`, `cut`, `awk`, `sort`, `uniq`, `tr`, `strings`, and `base64` acting directly on sample files.
 
 ---
 
-## ⚡ Quick Reference Table
+##  Quick Reference Table
 
 | Tool | Primary Function | Common Syntax / Example |
 | :--- | :--- | :--- |
@@ -326,13 +327,13 @@ echo "aGVsbG8=" | base64 --decode
 
 ---
 
-## 💻 Practical File Execution Examples
+##  Practical File Execution Examples
 
 Run these setup commands first to create the test files (`access.log`, `users.csv`, `data.txt`, and `encoded.txt`), then run the command examples on them.
 
 ### Step 0: Setup Workspace & Sample Files
 
-
+```bash
 # Create a practice workspace
 mkdir -p ~/text_lab && cd ~/text_lab
 
@@ -369,10 +370,13 @@ EOF
 # 4. Create encoded.txt
 echo "YXlvdWI6U3VwZXJTZWNyZXRQYXNzd29yZDEyMw==" > encoded.txt
 
+```
+
+---
 
 ### Exercise 1: Searching inside files (`grep`)
 
-
+```bash
 # Search for lines containing "401" or "403" status codes in access.log
 grep -E "401|403" access.log
 
@@ -382,6 +386,7 @@ grep -i "cybersecurity" users.csv
 # Exclude lines containing HTTP 200 OK from access.log
 grep -v " 200 " access.log
 
+```
 
 ---
 
@@ -475,6 +480,7 @@ base64 -d encoded.txt
 cd ~ && rm -rf ~/text_lab
 
 ```
+
 
 #  File Permissions & Redirection (`chmod`)
 
